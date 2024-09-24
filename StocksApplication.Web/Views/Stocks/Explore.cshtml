@@ -1,0 +1,36 @@
+﻿@using StocksApplication.Core.Models
+@model StocksExploreViewModel
+@{
+	ViewBag.Title = ViewBag.StockSymbol ?? "All Stocks";
+}
+
+<div class="flex" style="justify-content: space-between;">
+	<div class="box w-40">
+		<div class="flex mt mb" style="justify-content: space-between">
+			<div>
+				<h3 class="text-grey">Stocks</h3>
+			</div>
+			<div>
+				<a asp-controller="Stocks" asp-action="Explore" asp-route-display-all="true">All Stocks</a>
+			</div>
+		</div>
+	
+		<div class="list-container">
+			<ul class="list">
+				@foreach (Stock stock in Model.Stocks)
+				{
+					<li>
+						<a asp-controller="Stocks" asp-action="Explore" asp-route-stock="@stock.StockSymbol" style="text-decoration: none">
+							<h3>@stock.StockName</h3>
+							<p class="text-grey">@stock.StockSymbol</p>
+						</a>
+					</li>
+				}
+			</ul>
+		</div>
+	</div>
+	@if (ViewBag.StockSymbol != null)
+	{
+		@await Component.InvokeAsync("SelectedStock", new { stockSymbol = ViewBag.StockSymbol })
+	}
+</div>
